@@ -1,0 +1,60 @@
+#css1 {
+	color: red;
+	text-align: center;
+}
+
+#css2 {
+	color: green;
+	text-align: right;
+}
+
+#css1, #css2, #css3, #css4, #lol, #funky, #freak{
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+#css3, #css4 {
+	color: blue;
+	font: arial;
+	margin-left: 40px;
+}
+
+@keyframes fancy {
+	from {color: red;}
+	to {color: blue;}
+}
+
+#lol {
+	color: red;
+	animation-name: fancy;
+	animation-duration: 4s;
+}
+
+@keyframes fancyschmancy {
+	0% {color: red;}
+	14% {color: orange;}
+	29% {color: yellow;}
+	44% {color: green;}
+	58% {color: blue;}
+	72% {color: indigo;}
+	86% {color: violet;}
+}
+
+@keyframes fancymoreschmancy {
+	0% {text-align: left;}
+	50% {text-align: right;}
+	100% {text-align: left;}
+}
+
+#funky {
+	color: red;
+	animation-name: fancyschmancy;
+	animation-duration: 0.2s;
+	animation-iteration-count: infinite;
+}
+
+#freak {
+	animation-name: fancymoreschmancy;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+}
