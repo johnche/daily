@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
 <link rel="stylesheet" href="style.php" media="screen">
+<meta http-equiv="refresh" content="1">
 
 <style>
 	@font-face {
