@@ -38,7 +38,7 @@ body > .grid{
 	<div class="ui message">
 <?php
 if ($_POST["username"] == null && $_POST["password"] == null){
-	echo "press red button";
+	echo "press the red button";
 }
 $credentials = explode("\n", file_get_contents("credentials.txt"));
 $username = $credentials[0];
