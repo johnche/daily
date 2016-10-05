@@ -20,13 +20,13 @@ body > .grid{
 
 			<div class="field">
 				<div class="ui input">
-					<input type="text" name="username" placeholder="user">
+					<input type="text" name="username" placeholder="Username">
 				</div>
 			</div>
 
 			<div class="field">
 				<div class="ui input">
-					<input type="text" name="password" placeholder="pass">
+					<input type="text" name="password" placeholder="Password">
 				</div>
 			</div>
 
