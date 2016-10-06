@@ -44,7 +44,7 @@ $credentials = explode("\n", file_get_contents("credentials.txt"));
 $username = $credentials[0];
 $password = $credentials[1];
 
-if ($_POST["username"] == $username && $_POST["password"] == $password){
+if ($_POST["username"] === $username && $_POST["password"] === $password){
 	echo "Good job.";
 } else if ($_POST["username"] != null || $_POST["password"] != null) { 
 	echo "Wrong"; 
