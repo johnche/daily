@@ -25,7 +25,7 @@ window.onload = showTime;
 </script>
 
 <div class="ui middle aligned very padded text container segment">
-        <h2 class="ui header">Date and time</h2>
+        <h2 class="ui header">Time</h2>
 
 <div class="ui grid">
 <div class="six wide column">
