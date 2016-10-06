@@ -7,25 +7,21 @@
 
 
 <script type="text/javascript">
-
-function getTime(){
-var refresh = 1000;
-mytime = setTimeout('displayTime()', refresh);
-}
-
-function displayTime(){
+function showTime(){
 	$(document).ready(function() {
 		$.ajax({
+			type: 'POST',
 			url:"time.php",
-			success:function(result){
-				document.getElementById('showtime').innerHTML = result;
+			timeout: 1000,
+			success: function(phptime) {
+				$("#showtime").html(phptime);
+				window.setTimeout(showTime, 1000);
 			}
 		});
 	});
-	tt = getTime(); // Recursive call
 }
 
-window.onload = getTime;
+window.onload = showTime;
 </script>
 
 <div class="ui middle aligned very padded text container segment">
