@@ -1,97 +1,118 @@
-window.onload = function() {
-	var canvas = document.createElement('canvas'),
-		context = canvas.getContext('2d'),
-		score = 0,
-		level = 0,
-		direction = 0,
-		snake = new Array(3);
+$(document).ready(function(){
 
-	var map = new Array(20);
-	for (var i = 0; i < map.length; i++){
-		map[i] = new Array(20);
-	}
+	var canvas = $("#canvas")[0];
+	var context = canvas.getContext("2d");
+	var width = $("#canvas").width();
+	var height = $("#canvas").height();
+	var cellsize = 10;
+	var xgrid = width/cellsize;
+	var ygrid = height/cellsize;
+	var direction;
+	var score;
+	var timer;
+	var snake;
+	var food;
 
-	canvas.width = 204;
-	canvas.height = 224;
-
-	var body = document.getElementsByTagName('body')[0];
-	body.appendChild(canvas);
-
-	map = generateSnake(map);
-	map = generateFood(map);
-	drawGame();
-
-	function drawGame(){
-		context.clearRect(0, 0, canvas.width, canvas.height);
-
-		for (var i = snake.length - 1; i >= 0; i--){
-			if (i ===0){
-				switch(direction){
-					case 0: //right
-						snake[0] = { x: snake[0].x + 1, y: snake[0].y};
-						break;
-					case 1: //left
-						snake[0] = { x: snake[0].x - 1, y: snake[0].y};
-
-
-		drawMain();
-
-		for (var x = 0; x < map.length; x++) {
-			for (var y = 0; y < map[0].length; y++) {
-				if (map[x][y] === 1) {
-					context.fillStyle = 'black';
-					context.fillRect(x * 10, y * 10 + 20, 10, 10);
-				} else if (map[x][y] === 2) {
-					context.fillStyle = 'orange';
-					context.fillRect(x * 10, y * 10 + 20, 10, 10);
-				}
-			}
+	function init() {
+		direction = "right";
+		score = 0;
+		create_snake();
+		create_food();
+		if (typeof timer == "undefined"){
+			timer = setInterval(draw, 60);
 		}
 	}
 
-	function drawMain(){
-		context.lineWidth = 2;
-		context.strokeStyle = 'black';
-		context.strokeRect(2, 20, canvas.width - 4, canvas.height - 24);
-		context.font = '12px sans-serif';
-		context.fillText('Score: ' + score + ' - Level: ' + level, 2, 12);
-	}
+	init();
 
-	function generateFood(map){
-		var rndx = Math.round(Math.random() * 19),
-			rndy = Math.round(Math.random() * 19);
-
-		while (map[rndx][rndy] === 2) {
-			rndx = Math.round(Math.random() * 19);
-			rndy = Math.round(Math.random() * 19);
+	function create_snake() {
+		var length = 5;
+		snake = [];
+		for (var i = length - 1; i >= 0; i--){
+			snake.push({x: i, y: 0});
 		}
-
-		map[rndx][rndy] = 1;
-		return map;
 	}
 
-	function generateSnake(map){
-		var rndx = Math.round(Math.random() * 19),
-			rndy = Math.round(Math.random() * 19);
+	function create_food() {
+		food = {
+			x: Math.round(Math.random() * (xgrid - 1)),
+			y: Math.round(Math.random() * (ygrid - 1)),
+		};
+	}
 
-		while ((rndx - snake.length) < 0) {
-			rndy = Math.round(Math.random() * 19);
+	function wallcollision(x, y) {
+		if(x == -1 || x == xgrid || y == -1 || y == ygrid) {
+			return true;
 		}
+		return false;
+	}
 
-		for (var i = 0; i < snake.length; i++) {
-			snake[i] = { x: rndx - i, y: rndy };
-			map[rndx - i][rndy] = 2;
+	function bodycollision(x, y) {
+		for (var i in snake) {
+			if (snake[i].x == x && snake[i].y == y) return true;
 		}
-		return map;
+		return false;
 	}
 
-	function showGameOver(){
-		context.clearRect(0, 0, canvas.width. canvas.height);
-		context.fillStyle = 'black';
-		context.font = '16px sans-serif';
-		context.fillText('Game Over!', ((canvas.width / 2) - (context.measureText('Game Over!').width / 2)), 50);
-		context.font = '12px sans-serif';
-		//context.fillText('Your score was: ' + score, ((canvas.width / 2) - (context.measureText('Your score was; ' + score).width / 2)). 70);
+	function draw() {
+		context.fillStyle = "white";
+		context.fillRect(0, 0, width, height);
+		context.strokeStyle = "black";
+		context.strokeRect(0, 0, width, height);
+		move_snake();
+		draw_snake();
+		draw_cell(food.x, food.y); // draw_food
+		score_text();
 	}
 
-};
+
+	function move_snake(){
+		var x = snake[0].x;
+		var y = snake[0].y;
+		if (direction == "right") x++;
+		else if (direction == "left") x--;
+		else if (direction == "up") y--;
+		else if (direction == "down") y++;
+		if (wallcollision(x, y) || bodycollision(x, y)){
+			init();
+			return;
+		}
+		snake_eats(x, y);
+	}
+
+	function snake_eats(snakex, snakey){
+		var tail = {x: snakex, y: snakey};
+		if (snakex == food.x && snakey == food.y) {
+			score++;
+			create_food();
+		} else { snake.pop(); }
+		snake.unshift(tail);
+	}
+
+	function draw_snake(){
+		for (var i in snake){
+			draw_cell(snake[i].x, snake[i].y);
+		}
+	}
+
+	function draw_cell(x, y) {
+		context.fillStyle = "blue";
+		context.fillRect(x * cellsize, y * cellsize, cellsize, cellsize);
+		context.strokeStyle = "white";
+		context.strokeRect(x * cellsize, y * cellsize, cellsize, cellsize);
+	}
+
+	function score_text(){
+		context.fillText("Score: " + score, 5, height - 5);
+	}
+
+	$(document).keydown(function(e) {
+		var key = e.which;
+		console.log(key);
+		if (key == "37" && direction != "right") direction = "left";
+		else if (key == "38" && direction != "down") direction = "up";
+		else if (key == "39" && direction != "left") direction = "right";
+		else if (key == "40" && direction != "up") direction = "down";
+	});
+
+});
