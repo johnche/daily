@@ -13,8 +13,6 @@ window.onload = function(){
 
 	function setDoors(){
 		var realdoor = Math.floor((Math.random() * 3) + 1);
-		document.getElementById("textbox").innerHTML = realdoor;
-		
 		switch(realdoor){
 			case 1:
 				door1 = true;
