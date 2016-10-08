@@ -35,7 +35,7 @@ window.onload = function(){
 	}
 
 	function correctDoor(){
-		document.getElementById("textbox").innerHTML = "clap clap, congratulationavistahastalabyebye! see you never again";
+		document.getElementById("textbox").innerHTML = "clap clap, congratulations! byebye";
 		$(".door1").slideUp();
 		$(".door2").slideUp();
 		$(".door3").slideUp();
